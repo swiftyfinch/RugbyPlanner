@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump-type:
+        type: choice
+        required: true
+        options:
+        - patch
+        - minor
+        - major
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+  bump:
+    runs-on: macos-latest
+    steps:
+    # Checkout with custom token for pushin to protected branch
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+
+    # Build Application
+    - uses: maxim-lobanov/setup-xcode@v1
+      with: { xcode-version: '14.1' }
+    # https://github.com/actions/runner-images/issues/1665
+    - name: Build RugbyPlanner
+      run: |
+        ruby .github/scripts/bump.rb ${{ github.event.inputs.bump-type }}
+
+        brew install xcbeautify
+        xcodebuild \
+          -project RugbyPlanner.xcodeproj \
+          -scheme RugbyPlanner \
+          -configuration Release \
+          -derivedDataPath build \
+          -skipPackagePluginValidation | xcbeautify
+
+        mv build/Build/Products/Release/RugbyPlanner.app RugbyPlanner.app
+        zip -r RugbyPlanner.zip RugbyPlanner.app
+
+    # Update sha, commit, add tag and push
+    - run: |
+        git config user.name "GitHub Actions"
+        git config user.email "swiftyfinch@yandex.com"
+        ruby .github/scripts/update_sha.rb RugbyPlanner.zip
+
+        echo "release_tag=`git describe --tags --abbrev=0`" >> $GITHUB_ENV
+        git push origin
+        git push origin `git describe --tags --abbrev=0`
+
+    # Create release and discussion
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: 🏈 RugbyPlanner ${{ env.release_tag }}
+        generate_release_notes: true
+        discussion_category_name: Announcements
+        fail_on_unmatched_files: true
+        files: RugbyPlanner.zip
+        tag_name: ${{ env.release_tag }}
