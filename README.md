@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/swiftyfinch/RugbyPlanner/assets/64660122/714c4a1d-da87-4460-b79d-2dd77ae3ec7f" width=600>
+  <img src="https://github.com/swiftyfinch/RugbyPlanner/assets/64660122/2caa3194-2a7a-4dcd-b2d6-f7925b9ca3c8" width=600>
 </p>
 
 <p align="center">
