@@ -63,9 +63,6 @@ struct TriesModifier {
             }
             targets = Array(result)
         }
-        .filter {
-            $0.type != .aggregated && $0.type != .podsUmbrella
-        }
         .forEach {
             $0.modifier = .hidden
         }
