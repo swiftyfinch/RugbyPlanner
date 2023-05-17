@@ -30,7 +30,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             submenu.items = [about, NSMenuItem.separator(), quit].compactMap { $0 }
             app?.submenu = submenu
 
-            ["File", "View", "Window", "Help"].forEach { name in
+            ["File", "View", "Help"].forEach { name in
                 mainMenu.item(withTitle: name).map { mainMenu.removeItem($0) }
             }
         }
