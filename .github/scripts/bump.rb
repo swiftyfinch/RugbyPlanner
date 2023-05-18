@@ -27,6 +27,6 @@ NEW_VERSION = VERSION_PARTS.join(".")
 # Update version in xcconfig
 %x[sed -i '' 's/#{VERSION}/#{NEW_VERSION}/g' RugbyPlanner/Project.xcconfig]
 # Update version for Homebrew
-%x[sed -i '' 's/#{VERSION}/#{NEW_VERSION}/g' Casks/RugbyPlanner.rb]
+%x[sed -i '' 's/#{VERSION}/#{NEW_VERSION}/g' Casks/rugby-planner.rb]
 
 puts BUMP_TYPE.capitalize + ": " + VERSION + " → " + NEW_VERSION
