@@ -38,7 +38,6 @@ opt_in_rules:
 - function_parameter_count
 - generic_type_name
 - implicit_getter
-- inert_defer
 - is_disjoint
 - large_tuple
 - leading_whitespace
@@ -80,7 +79,6 @@ opt_in_rules:
 - type_body_length
 - type_name
 - unneeded_break_in_switch
-- unused_capture_list
 - unused_closure_parameter
 - unused_control_flow_label
 - unused_enumerated
