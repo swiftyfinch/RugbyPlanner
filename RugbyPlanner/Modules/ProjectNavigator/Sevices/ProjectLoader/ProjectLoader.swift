@@ -14,7 +14,7 @@ struct ProjectLoader {
     @Dependency(\.xcodeTargetsParser) var xcodeTargetsParser
 
     func load(workspace fileURL: URL) async throws -> [Project] {
-        let projectPaths = try xcodeWorkspaceReader.read(fileURL)
+        let projectPaths = try xcodeWorkspaceReader.readProjects(fileURL)
         let projectsInfo = try await xcodeProjectReader.read(projectPaths)
         let projects = await projectsInfo.concurrentMap {
             Project(name: $0.name, targets: xcodeTargetsParser.parse(project: $0.project))

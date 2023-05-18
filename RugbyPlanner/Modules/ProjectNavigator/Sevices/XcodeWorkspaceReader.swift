@@ -9,11 +9,11 @@ import Foundation
 import XcodeProj
 
 struct XcodeWorkspaceReader {
-    /// Returns: - Project paths.
-    func read(_ fileURL: URL) throws -> [URL] {
-        let workspace = try XCWorkspace(pathString: fileURL.path())
-        return workspace.data.children.map(\.location.path).map {
-            fileURL.deletingLastPathComponent().appending(path: $0)
-        }
+    func readProjects(_ fileURL: URL) throws -> [URL] {
+        try XCWorkspace(pathString: fileURL.path())
+            .data.children
+            .map(\.location.path)
+            .filter { $0.hasSuffix(".xcodeproj") }
+            .map { fileURL.deletingLastPathComponent().appending(path: $0) }
     }
 }
