@@ -17,15 +17,10 @@ struct ProjectNavigatorButtonsView: View {
                 Button {
                     viewStore.send(.toggleModifiedTargetsVisibility)
                 } label: {
-                    if viewStore.modifiers.contains(.hideTargets) {
-                        Image(systemName: "eye.slash.circle.fill")
-                            .imageScale(.medium)
-                            .foregroundColor(Color.gray)
-                    } else {
-                        Image(systemName: "eye.circle.fill")
-                            .imageScale(.medium)
-                            .foregroundColor(.init(hex: 0x6eb5dC))
-                    }
+                    Image(systemName: viewStore.showTargets ? "eye.circle.fill" : "eye.slash.circle.fill")
+                        .imageScale(.medium)
+                        .foregroundColor(viewStore.showTargets ? Color(hex: 0x6eb5dC) : Color.gray)
+                        .help(viewStore.showTargets ? "Hide Targets" : "Show Targets")
                 }
                 .buttonStyle(CustomButtonStyle())
 
@@ -34,9 +29,8 @@ struct ProjectNavigatorButtonsView: View {
                 } label: {
                     Image(systemName: "target")
                         .imageScale(.medium)
-                        .foregroundColor(
-                            viewStore.modifiers.contains(.hideAggregateTargets) ? Color.gray : Color(hex: 0xca6854)
-                        )
+                        .foregroundColor(viewStore.showAggregateTargets ? Color(hex: 0xca6854) : Color.gray)
+                        .help(viewStore.showAggregateTargets ? "Hide Aggregate Targets" : "Show Aggregate Targets")
                 }
                 .buttonStyle(CustomButtonStyle())
             }
@@ -49,4 +43,9 @@ private struct CustomButtonStyle: ButtonStyle {
         configuration.label
             .opacity(configuration.isPressed ? 0.5 : 1)
     }
+}
+
+private extension ProjectNavigatorState {
+    var showTargets: Bool { !modifiers.contains(.hideTargets) }
+    var showAggregateTargets: Bool { !modifiers.contains(.hideAggregateTargets) }
 }
