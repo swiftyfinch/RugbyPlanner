@@ -18,8 +18,13 @@ It doesn't run real Rugby CLT, but shows how it will be.
 ## How to install 📦
 
 ```sh
-brew tap swiftyfinch/RugbyPlanner https://github.com/swiftyfinch/RugbyPlanner.git
-brew install --cask rugby-planner --no-quarantine
+> brew tap swiftyfinch/RugbyPlanner https://github.com/swiftyfinch/RugbyPlanner.git
+> brew install --cask rugby-planner --no-quarantine
+```
+
+If you already have an installed one, you can update it with this command:
+```sh
+> brew update && brew upgrade --cask rugby-planner
 ```
 
 <br>
